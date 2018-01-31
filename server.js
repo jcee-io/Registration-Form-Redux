@@ -4,10 +4,12 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const app = express();
 const path = require('path');
+const bodyParser = require('body-parser');
 const compiler = webpack(webpackConfig);
  
 app.use(express.static(__dirname + '/dist'));
- 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 if(process.env.NODE_ENV !== 'production') {
   app.use(webpackDevMiddleware(compiler, {
     hot: true,
@@ -20,6 +22,10 @@ if(process.env.NODE_ENV !== 'production') {
   }));  
 }
 
+app.post('/register', (req,res) => {
+  console.log(req.body);
+  res.end();
+});
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
