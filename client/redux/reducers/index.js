@@ -8,4 +8,4 @@ const reducers = (state = {}, action) => {
 };
 
 
-export default combineReducers(reducers);
+export default combineReducers({ state: reducers });

@@ -6,4 +6,4 @@ const state = {
 };
 
 
-export default createStore(rootReducer, state);
+export default createStore(rootReducer, { state });
