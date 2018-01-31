@@ -1,0 +1,17 @@
+#landing {
+	background: url('http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg') no-repeat center center fixed;
+	background-size: cover;
+	height: 100vh;
+	overflow: hidden;
+}
+
+#landing-buttons {
+	margin: 25% 50%;
+	transform: scale(2);
+	display: flex;
+	justify-content: center;
+}
+
+#landing-buttons .btn {
+	margin: 0 10px;
+}
