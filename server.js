@@ -89,13 +89,27 @@ app.post('/register/form2', (req,res) => {
       phone
     }, {
       method: 'update'
-    }).then(foo => {
+    }).then(() => {
       console.log(foo);
       res.end();
     });
 
 });
 
+
+app.post('/register/form3', (req, res) => {
+  const { address, city, zip, shortid } = req.body;
+
+  new User().query(qb => {
+    qb.whereIn('shortid', shortid);
+  }).save({
+    street_address: address,
+    city,
+    zip
+  }, {
+    method: 'update'
+  }).then(() => res.end());
+});
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });

@@ -78,6 +78,7 @@ class SignUp extends Component {
 	}
 
 	endForm() {
+		this.props.saveForm3();
 		this.setState({ form3Complete: true });
 	}
 	render() {

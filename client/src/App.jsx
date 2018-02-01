@@ -29,6 +29,12 @@ class App extends Component {
   	axios.post('/register/form2', {firstName, lastName, phone, shortid: id});
   }
 
+  saveform3() {
+  	const { address, city, zip } = this.props;
+  	const id = this.props.shortid;
+  	axios.post('/register/form3', { address, city, zip, shortid: id});
+  }
+
 	render() {
 		return (
 		  <div>
@@ -37,6 +43,7 @@ class App extends Component {
 			    <Route exact path="/signup" render={() => <SignUp
 			    	 saveForm1={this.saveForm1.bind(this)} {...this.props} 
 			    	 saveForm2={this.saveForm2.bind(this)}
+			    	 saveForm3={this.saveform3.bind(this)}
 			    />} />
 		    </Switch>
 		  </div>
