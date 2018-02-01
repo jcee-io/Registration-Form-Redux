@@ -48,6 +48,10 @@ export const saveCity = city => ({
 	city
 });
 
+export const saveState = state => ({
+	type: 'GET_STATE',
+	state
+});
 export const saveZip = zip => ({
 	type: 'GET_ZIP',
 	zip

@@ -30,6 +30,9 @@ const reducers = (state = {}, action) => {
   	case 'GET_CITY':
   	  object.city = action.city;
   	  return object;
+  	case 'GET_STATE':
+  	  object.state = action.state;
+  	  return object;
   	case 'GET_ZIP':
   	  object.zip = action.zip;
   	  return object;

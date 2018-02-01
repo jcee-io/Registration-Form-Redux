@@ -33,6 +33,7 @@ const Form2 = ({
 const Form3 = ({
 	saveAddress,
 	saveCity,
+	saveState,
 	saveZip,
 	endForm
 }) => (
@@ -40,6 +41,7 @@ const Form3 = ({
 	    <h2>Form 3</h2>
 		  Street Address: <br /><input type="text" onChange={({ target }) => saveAddress(target.value)} /><br />
 		  City: <br /><input type="text" onChange={({ target }) => saveCity(target.value)} /><br />
+		  State: <br /><input type="text" onChange={({ target }) => saveState(target.value)} /><br />
 		  Zip: <br /><input type="text" onChange={({ target }) => saveZip(target.value)} /><br />
 		  <button className="btn btn-default" onClick={() => endForm()}>Save</button>
 	  </div>

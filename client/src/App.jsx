@@ -30,9 +30,9 @@ class App extends Component {
   }
 
   saveform3() {
-  	const { address, city, zip } = this.props;
+  	const { address, city, zip, state } = this.props;
   	const id = this.props.shortid;
-  	axios.post('/register/form3', { address, city, zip, shortid: id});
+  	axios.post('/register/form3', { address, city, zip, state, shortid: id});
   }
 
 	render() {

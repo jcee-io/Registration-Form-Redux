@@ -36,6 +36,7 @@ knex.schema.createTableIfNotExists('users', function(table) {
     table.string('phone');
     table.string('street_address');
     table.string('city');
+    table.string('state');
     table.string('zip');
     table.timestamps();
 }).then(data => console.log(data.toString()));  
@@ -98,13 +99,14 @@ app.post('/register/form2', (req,res) => {
 
 
 app.post('/register/form3', (req, res) => {
-  const { address, city, zip, shortid } = req.body;
+  const { address, city, zip, state, shortid } = req.body;
 
   new User().query(qb => {
     qb.whereIn('shortid', shortid);
   }).save({
     street_address: address,
     city,
+    state,
     zip
   }, {
     method: 'update'

@@ -10,6 +10,7 @@ const state = {
   phone: '',
   address: '',
   city: '',
+  state: '',
   zip: ''
 };
 
