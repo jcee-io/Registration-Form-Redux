@@ -1,11 +1,11 @@
 const express = require('express');
 const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const path = require('path');
 const pg = require('pg');
 const bodyParser = require('body-parser');
-const compiler = webpack(webpackConfig);
+// const compiler = webpack(webpackConfig);
 
 const app = express(); 
 app.use(express.static(__dirname + '/dist'));
@@ -41,7 +41,7 @@ knex.schema.createTableIfNotExists('users', function(table) {
     table.string('state');
     table.string('zip');
     table.timestamps();
-}).then(data => console.log(data.toString()));  
+}).then();  
 
 
 
@@ -51,31 +51,23 @@ let User = bookshelf.Model.extend({
   tableName: 'users'
 });
 
-if(process.env.NODE_ENV !== 'production') {
-  app.use(webpackDevMiddleware(compiler, {
-    hot: true,
-    filename: 'bundle.js',
-    publicPath: '/',
-    stats: {
-      colors: true,
-    },
-    historyApiFallback: true,
-  }));  
-}
+// if(process.env.NODE_ENV !== 'production') {
+//   app.use(webpackDevMiddleware(compiler, {
+//     hot: true,
+//     filename: 'bundle.js',
+//     publicPath: '/',
+//     stats: {
+//       colors: true,
+//     },
+//     historyApiFallback: true,
+//   }));  
+// }
 
 app.post('/register', (req,res) => {
   let user  = new User();
   const { username, password, email, shortid } = req.body;
-  const emptyData = {
-    'first_name': '',
-    'last_name': '',
-    phone: '',
-    street_address: '',
-    city: '',
-    zip: ''
-  };
 
-  User.forge({ username, password, email, shortid, ...emptyData })
+  User.forge({ username, password, email, shortid })
     .save()
     .then(u => {
       res.end();
@@ -119,7 +111,4 @@ app.get('*', (req, res) => {
 });
  
 const server = app.listen(3000, function() {
-  const host = server.address().address;
-  const port = server.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
 });
