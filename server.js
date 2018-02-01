@@ -12,16 +12,18 @@ app.use(express.static(__dirname + '/dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
+let localConn = {
     host : 'localhost',
     user: 'justin',
     password: 'justin',
     database: 'jcruzz',
     charset: 'utf8'
-  }
+  };
+let connection = process.env.DATABASE_URL || localConn;
+
+const knex = require('knex')({
+  client: 'pg',
+  connection
 });
 
 
