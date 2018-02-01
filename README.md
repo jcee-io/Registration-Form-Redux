@@ -1,4 +1,6 @@
 EKA Technical Challenge
+
+LIVE LINK: https://safe-woodland-54646.herokuapp.com/
 ---
 
 This is an application built on a React/Redux frontend with Routing, with a backend consisting of Node, Express, PostgreSQL via Bookshelf.
