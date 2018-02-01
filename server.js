@@ -2,14 +2,52 @@ const express = require('express');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
-const app = express();
 const path = require('path');
+const pg = require('pg');
 const bodyParser = require('body-parser');
 const compiler = webpack(webpackConfig);
- 
+
+const app = express(); 
 app.use(express.static(__dirname + '/dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+const knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host : 'localhost',
+    user: 'justin',
+    password: 'justin',
+    database: 'jcruzz',
+    charset: 'utf8'
+  }
+});
+
+
+knex.schema.createTableIfNotExists('users', function(table) {  
+    table.increments();
+    table.string('shortid');
+    table.string('username');
+    table.string('email', 128);
+    table.string('password');
+    table.string('first_name');
+    table.string('last_name');
+    table.string('phone');
+    table.string('street_address');
+    table.string('city');
+    table.string('zip');
+    table.timestamps();
+}).then(data => console.log(data.toString()));  
+
+
+
+const bookshelf = require('bookshelf')(knex);
+
+let User = bookshelf.Model.extend({
+  tableName: 'users'
+});
+
 if(process.env.NODE_ENV !== 'production') {
   app.use(webpackDevMiddleware(compiler, {
     hot: true,
@@ -23,9 +61,41 @@ if(process.env.NODE_ENV !== 'production') {
 }
 
 app.post('/register', (req,res) => {
-  console.log(req.body);
-  res.end();
+  let user  = new User();
+  const { username, password, email, shortid } = req.body;
+  const emptyData = {
+    'first_name': '',
+    'last_name': '',
+    phone: '',
+    street_address: '',
+    city: '',
+    zip: ''
+  };
+
+  User.forge({ username, password, email, shortid, ...emptyData })
+    .save()
+    .then(u => {
+      res.end();
+    });
 });
+
+app.post('/register/form2', (req,res) => {
+  const { firstName, lastName, phone, shortid } = req.body;
+  new User().query(qb => {
+    qb.whereIn('shortid', shortid);
+  }).save({
+      first_name: firstName,
+      last_name: lastName,
+      phone
+    }, {
+      method: 'update'
+    }).then(foo => {
+      console.log(foo);
+      res.end();
+    });
+
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });

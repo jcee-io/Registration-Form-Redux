@@ -3,7 +3,14 @@ import rootReducer from './reducers/index';
 const state = {
   username: '',
   password: '',
-  email: ''
+  email: '',
+  shortid: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+  address: '',
+  city: '',
+  zip: ''
 };
 
 

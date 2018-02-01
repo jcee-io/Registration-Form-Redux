@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import shortid from 'shortid';
 import * as actions from '../redux/actions/actions';
 import LandingPage from './Components/LandingPage';
 import SignUp from './Components/SignUp';
@@ -14,9 +15,18 @@ class App extends Component {
 	}
   
   saveForm1() {
-  	const { username, password, email } = this.props;
+  	const { username, password, email, saveShortid } = this.props;
+  	const id = this.props.shortid !== '' ? this.props.shortid : shortid.generate();
+  	saveShortid(id);
+ 		axios.post('/register', { username, email, password, shortid: id });
 
- 		axios.post('/register', { username, email, password });
+ 		return '/';
+  }
+
+  saveForm2() {
+  	const { firstName, lastName, phone} = this.props;
+  	const id = this.props.shortid;
+  	axios.post('/register/form2', {firstName, lastName, phone, shortid: id});
   }
 
 	render() {
@@ -24,8 +34,10 @@ class App extends Component {
 		  <div>
 		    <Switch>
 			    <Route exact path="/" render={() => <LandingPage {...this.props} />} />
-			    <Route exact path="/signup" render={() => <SignUp saveForm1={this.saveForm1.bind(this)} {...this.props} />} />
-			    <Route exact path="/login" render={() => <Login {...this.props} />} />
+			    <Route exact path="/signup" render={() => <SignUp
+			    	 saveForm1={this.saveForm1.bind(this)} {...this.props} 
+			    	 saveForm2={this.saveForm2.bind(this)}
+			    />} />
 		    </Switch>
 		  </div>
 		);
