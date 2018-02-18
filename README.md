@@ -1,4 +1,4 @@
-EKA Technical Challenge
+Registration Form With Redux and PostgreSQL
 ---
 LIVE LINK: https://safe-woodland-54646.herokuapp.com/
 
